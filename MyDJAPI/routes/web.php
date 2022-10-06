@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClientController;
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
@@ -26,5 +27,10 @@ $router->post('token', 'AuthController@authenticate');
 // protected routes
 $router->group(['middleware' => 'auth'], function () use ($router) {
 
-    $router->get('test', 'ExampleController@test');
+    // Client CRUD actions
+    $router->get('client', 'ClientController@index');
+    $router->get('client/{id}', 'ClientController@show');
+    $router->post('client', 'ClientController@store');
+    $router->put('client/{id}', 'ClientController@update');
+    $router->delete('client/{id}', 'ClientController@destroy');
 });
