@@ -1,0 +1,30 @@
+<h1 class="display-4 header">DJ Login</h1>
+
+<div class="card">
+    <h2>Login</h2>
+
+    <div class="content">
+
+        <div class="alert alert-danger" role="alert" *ngIf="loginForm.invalid && loginForm.touched">
+            Niet alle velden zijn correct ingevuld!
+        </div>
+        <div class="alert alert-danger" role="alert" *ngIf="errors">
+            {{ errors }}
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div class="mb-3">
+                <label for="email" class="form-label">Emailadres</label>
+                <input type="email" class="form-control" id="email" placeholder="name@example.com" formControlName="email">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Wachtwoord</label>
+                <input type="password" class="form-control" id="password" formControlName="password">
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary mb-3">Inloggen</button>
+            </div>
+        </form>
+    </div>
+
+</div>

@@ -1,0 +1,44 @@
+<form [formGroup]="addClientForm" (ngSubmit)="addClient()">
+    <div class="modal-header">
+        <h4 class="modal-title"><fa-icon [icon]="faAdd"></fa-icon> Klant toevoegen</h4>
+        <button type="button" class="btn-close" aria-label="Sluiten" (click)="activeModal.dismiss('Cross click')"></button>
+    </div>
+    
+    <div class="modal-body">
+
+        <div class="alert alert-danger" *ngIf="error">
+            {{ error }}
+        </div>
+        
+
+        <div class="mb-3">
+            <label for="name">Naam</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Testbedrijf BV" formControlName="name">
+        </div>
+
+        <div class="mb-3"><p>Contactpersoon</p></div>
+        <div formGroupName="contacts">
+            <div class="input-group mb-3">
+                <input type="text" id="firstName" name="firstName" placeholder="Voornaam" class="form-control" formControlName="first_name">
+                <input type="text" id="lastName" name="lastName" placeholder="Achternaam" class="form-control" formControlName="last_name">
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" id="email" name="email" placeholder="E-mailadres" class="form-control" formControlName="email">
+                <input type="text" id="phone" name="phone" placeholder="Telefoonnummer" class="form-control" formControlName="phone">
+            </div>
+        </div>
+
+        <div class="mb-3"><p>Adresgegevens</p></div>
+        <div class="mb-3">
+            <input type="text" id="address" name="address" placeholder="Adres" class="form-control" formControlName="address1">
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" id="postalCode" name="postalCode" placeholder="Postcode" class="form-control" formControlName="postal_code">
+            <input type="text" id="location" name="location" placeholder="Plaats" class="form-control" formControlName="city">
+        </div>
+    </div>
+    
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success"><fa-icon [icon]="faSave"></fa-icon> Toevoegen</button>
+    </div>
+</form>

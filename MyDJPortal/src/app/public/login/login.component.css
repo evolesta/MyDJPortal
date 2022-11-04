@@ -1,0 +1,23 @@
+.card {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 150px;
+
+    background-color: #ebebeb;
+    border: 0px;
+}
+
+.card h2 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.content {
+    margin: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-top: 50px;
+}

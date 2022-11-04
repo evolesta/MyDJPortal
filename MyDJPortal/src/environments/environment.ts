@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiurl: 'http://mydjportal.test',
+  ininjaApiUrl: 'https://portaal.verzoekjes.eu/api/v1',
+  ininjaToken: 'yf7s9Jmht1acHDcsylXAJFUumrAoY8wzCiZgNzSoZFtS7u15N2palzrp40nvg5iB',
+  //ininjaToken: 'LTlKHLvWNkvTpZSFktaU4fsI3NClCmwOukbmUEXFDTflnQip5qyafjF6SKApr5bD',
 };
 
 /*
