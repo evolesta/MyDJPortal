@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './public/login/login.component';
-import { IndexComponent } from './public/index/index.component';
-import { DashboardComponent } from './dj/dashboard/dashboard.component';
-import { GuardGuard } from './guard.guard';
-import { ClientsComponent } from './dj/clients/clients.component';
+import { DjClientsComponent } from './dj/dj-clients/dj-clients.component';
+import { DjDashboardComponent } from './dj/dj-dashboard/dj-dashboard.component';
+import { DjGigsComponent } from './dj/dj-gigs/dj-gigs.component';
+import { DjLoginComponent } from './dj/dj-login/dj-login.component';
+import { PublicIndexComponent } from './public/public-index/public-index.component';
 
 const routes: Routes = [
-  { path: '', component: IndexComponent },
-  { path: 'dj/login', component: LoginComponent },
-  { path: 'dj/dashboard', component: DashboardComponent, canActivate: [GuardGuard] },
-  { path: 'dj/clients', component: ClientsComponent, canActivate: [GuardGuard] }
+  { path: '', component: PublicIndexComponent },
+  { path: 'dj/login', component: DjLoginComponent },
+  { path: 'dj/dashboard', component: DjDashboardComponent },
+  { path: 'dj/clients', component: DjClientsComponent },
+  { path: 'dj/gigs', component: DjGigsComponent },
 ];
 
 @NgModule({

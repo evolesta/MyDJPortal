@@ -1,0 +1,10 @@
+<h2 mat-dialog-title><mat-icon>delete</mat-icon> Weet je het zeker?</h2>
+
+    <mat-dialog-content class="mat-typography">
+        Weet je zeker dat je deze klant wilt verwijderen?
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Annuleren</button>
+        <button type="button" (click)="deleteClient()" mat-raised-button color="warn" mat-dialog-close><mat-icon>save</mat-icon> Verwijderen</button>
+    </mat-dialog-actions>

@@ -1,0 +1,16 @@
+<mat-card class="content-box">
+    <h1>Inloggen DJ</h1>
+
+    <form class="form" [formGroup]="loginForm" (ngSubmit)="login()">
+        <mat-form-field appearance="legacy" class="input">
+            <mat-label>E-mailadres</mat-label>
+            <input type="text" name="email" matInput formControlName="email">
+        </mat-form-field>
+            <mat-form-field appearance="legacy" class="input">
+                <mat-label>Wachtwoord</mat-label>
+                <input type="password" name="password" matInput formControlName="password">
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="primary">Inloggen</button>
+    </form>
+</mat-card>

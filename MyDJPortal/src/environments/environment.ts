@@ -5,9 +5,8 @@
 export const environment = {
   production: false,
   apiurl: 'http://mydjportal.test',
-  ininjaApiUrl: 'https://portaal.verzoekjes.eu/api/v1',
-  ininjaToken: 'yf7s9Jmht1acHDcsylXAJFUumrAoY8wzCiZgNzSoZFtS7u15N2palzrp40nvg5iB',
-  //ininjaToken: 'LTlKHLvWNkvTpZSFktaU4fsI3NClCmwOukbmUEXFDTflnQip5qyafjF6SKApr5bD',
+  iapiurl: 'https://portaal.verzoekjes.eu/api/v1',
+  itoken: 'YaxzLpHGU7dy37tFt41FyAoOu4DEaKz8x0Cf3EvWGZ8HgAcJEZ2xMRwJh41kJWNc'
 };
 
 /*

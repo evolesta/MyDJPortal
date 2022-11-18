@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\LocationsController;
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
@@ -27,10 +28,16 @@ $router->post('token', 'AuthController@authenticate');
 // protected routes
 $router->group(['middleware' => 'auth'], function () use ($router) {
 
-    // Client CRUD actions
-    $router->get('client', 'ClientController@index');
-    $router->get('client/{id}', 'ClientController@show');
-    $router->post('client', 'ClientController@store');
-    $router->put('client/{id}', 'ClientController@update');
-    $router->delete('client/{id}', 'ClientController@destroy');
+    // Gigs CRUD actions
+    $router->get('gigs', 'GigsController@index');
+    $router->get('gigs/{id}', 'GigsController@show');
+    $router->post('gigs', 'GigsController@store');
+    $router->put('gigs/{id}', 'GigsController@update');
+    $router->delete('gigs/{id}', 'GigsController@destroy');
+
+    $router->get('locations', 'LocationsController@index');
+    $router->get('locations/{id}', 'LocationsController@show');
+    $router->post('locations', 'LocationsController@store');
+    $router->put('locations/{id}', 'LocationsController@update');
+    $router->delete('locations/{id}', 'LocationsController@destroy');
 });
