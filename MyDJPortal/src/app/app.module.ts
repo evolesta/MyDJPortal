@@ -34,6 +34,9 @@ import { DjAddGigComponent } from './dj/dj-gigs/dj-add-gig/dj-add-gig.component'
 import { DjEditGigComponent } from './dj/dj-gigs/dj-edit-gig/dj-edit-gig.component';
 import { DjDeleteGigComponent } from './dj/dj-gigs/dj-delete-gig/dj-delete-gig.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { LoaderComponent } from './services/loader/loader.component';
+import { LoaderInterceptor } from './services/loader.interceptor';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     DjAddGigComponent,
     DjEditGigComponent,
     DjDeleteGigComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,10 +75,12 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatPaginatorModule,
     MatMenuModule,
     MatDialogModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatProgressSpinnerModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
