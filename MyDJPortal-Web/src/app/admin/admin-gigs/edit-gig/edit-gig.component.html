@@ -1,0 +1,63 @@
+<h1>Feest bewerken</h1>
+
+<form [formGroup]="editGigForm" (ngSubmit)="editGig()">
+    <mat-form-field class="thirth-width">
+        <mat-label>Soort feest</mat-label>
+        <input matInput formControlName="name">
+        <mat-hint>Bruiloft, verjaardagsfeest, gala...</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="thirth-width">
+        <mat-label>Klant</mat-label>
+        <input matInput formControlName="clientId" [matAutocomplete]="autoClient">
+        <mat-autocomplete #autoClient="matAutocomplete" [displayWith]="displayClientName">
+            <mat-option *ngFor="let client of filteredClients | async" [value]="client">
+                {{client.name}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="thirth-width">
+        <mat-label>Locatie</mat-label>
+        <input matInput formControlName="location_id" [matAutocomplete]="autoLoc">
+        <mat-autocomplete #autoLoc="matAutocomplete" [displayWith]="displayLocationName">
+            <mat-option *ngFor="let location of filteredLocations | async" [value]="location">
+                {{location.name}}
+            </mat-option>
+        </mat-autocomplete>
+        <mat-hint>Locatie waar het feest wordt gehouden</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="thirth-width">
+        <mat-label>Datum</mat-label>
+        <input matInput type="date" formControlName="date">
+    </mat-form-field>
+    <mat-form-field class="thirth-width">
+        <mat-label>Start</mat-label>
+        <input matInput type="time" formControlName="start">
+    </mat-form-field>
+    <mat-form-field class="thirth-width">
+        <mat-label>Einde</mat-label>
+        <input matInput type="time" formControlName="end">
+    </mat-form-field>
+
+    <mat-form-field class="half-width">
+        <mat-label>Opbouwtijd gereed</mat-label>
+        <input matInput type="time" formControlName="buildupReadyTime">
+        <mat-hint>Tijd waarop het opbouwen gereed moet zijn</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="half-width">
+        <mat-label>Aantal gasten</mat-label>
+        <input matInput type="number" formControlName="guests">
+    </mat-form-field>
+
+    <section>
+        <mat-checkbox class="full-width" formControlName="sound">Geluid mee</mat-checkbox>
+        <mat-checkbox class="full-width" formControlName="light">Licht mee</mat-checkbox>
+    </section>
+
+    <mat-form-field class="full-width">
+        <mat-label>Notities</mat-label>
+        <textarea matInput formControlName="notes"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit"><mat-icon>save</mat-icon> Toevoegen</button>
+</form>

@@ -1,0 +1,17 @@
+<mat-card class="loginBox">
+    <div class="login">
+        <h2>Inloggen</h2>
+
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <mat-form-field class="full-width">
+                <mat-label>Gebruikersnaam</mat-label>
+                <input matInput formControlName="username">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>Wachtwoord</mat-label>
+                <input type="password" matInput formControlName="password">
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">Inloggen</button>
+        </form>
+    </div>
+</mat-card>
