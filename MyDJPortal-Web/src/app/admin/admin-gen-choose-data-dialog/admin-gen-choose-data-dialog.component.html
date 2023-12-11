@@ -1,0 +1,27 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<div mat-dialog-content>
+    <mat-form-field style="width: 100%">
+        <mat-label>Klant</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Bijv. Jan Smit" #input>
+    </mat-form-field>
+
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+            <!-- Loop trough each column defined in displayedColumns and show the name to the user -->
+            <ng-container *ngFor="let column of displayedColumns; index as i" [matColumnDef]="column">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ data.columnNames[i] }}</th>
+                <td mat-cell *matCellDef="let row">{{row[column]}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="closeDialog(row)"></tr>
+
+            <!-- Row shown when there is no data -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" collspan="4">Geen data gevonden - {{ input.value }}</td>
+            </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+</div>

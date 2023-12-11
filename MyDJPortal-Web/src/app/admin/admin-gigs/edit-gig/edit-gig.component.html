@@ -8,21 +8,17 @@
     </mat-form-field>
     <mat-form-field class="thirth-width">
         <mat-label>Klant</mat-label>
-        <input matInput formControlName="clientId" [matAutocomplete]="autoClient">
-        <mat-autocomplete #autoClient="matAutocomplete" [displayWith]="displayClientName">
-            <mat-option *ngFor="let client of filteredClients | async" [value]="client">
-                {{client.name}}
-            </mat-option>
-        </mat-autocomplete>
+        <input matInput formControlName="clientId">
+        <button matSuffix mat-icon-button type="button" (click)="openClientDialog()">
+            <mat-icon>search</mat-icon>
+        </button>
     </mat-form-field>
     <mat-form-field class="thirth-width">
         <mat-label>Locatie</mat-label>
-        <input matInput formControlName="location_id" [matAutocomplete]="autoLoc">
-        <mat-autocomplete #autoLoc="matAutocomplete" [displayWith]="displayLocationName">
-            <mat-option *ngFor="let location of filteredLocations | async" [value]="location">
-                {{location.name}}
-            </mat-option>
-        </mat-autocomplete>
+        <input matInput formControlName="location_id">
+        <button matSuffix mat-icon-button type="button" (click)="openLocationDialog()">
+            <mat-icon>search</mat-icon>
+        </button>
         <mat-hint>Locatie waar het feest wordt gehouden</mat-hint>
     </mat-form-field>
 
@@ -59,5 +55,5 @@
         <textarea matInput formControlName="notes"></textarea>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit"><mat-icon>save</mat-icon> Toevoegen</button>
+    <button mat-raised-button color="primary" type="submit"><mat-icon>save</mat-icon> Opslaan</button>
 </form>

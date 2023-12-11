@@ -1,1 +1,10 @@
-<p>delete-gig works!</p>
+<h2 mat-dialog-title>Weet je het zeker?</h2>
+
+<mat-dialog-content>
+    Weet je zeker dat je dit feest wilt verwijderen?
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Annuleren</button>
+    <button mat-raised-button [mat-dialog-close]="true" color="warn" (click)="deleteGig()">Verwijderen</button>
+</mat-dialog-actions>

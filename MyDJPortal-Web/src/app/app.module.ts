@@ -43,6 +43,7 @@ import { AddGigComponent } from './admin/admin-gigs/add-gig/add-gig.component';
 import { EditGigComponent } from './admin/admin-gigs/edit-gig/edit-gig.component';
 import { DeleteGigComponent } from './admin/admin-gigs/delete-gig/delete-gig.component';
 import { AdminSettingsComponent } from './admin/admin-settings/admin-settings.component';
+import { AdminGenChooseDataDialogComponent } from './admin/admin-gen-choose-data-dialog/admin-gen-choose-data-dialog.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { AdminSettingsComponent } from './admin/admin-settings/admin-settings.co
     EditGigComponent,
     DeleteGigComponent,
     AdminSettingsComponent,
+    AdminGenChooseDataDialogComponent,
   ],
   imports: [
     BrowserModule,

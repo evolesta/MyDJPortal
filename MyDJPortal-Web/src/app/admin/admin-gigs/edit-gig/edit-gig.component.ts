@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, startWith, map } from 'rxjs';
 import { HttpClientService } from 'src/app/services/http-client.service';
+import { AdminGenChooseDataDialogComponent } from '../../admin-gen-choose-data-dialog/admin-gen-choose-data-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edit-gig',
@@ -12,10 +14,6 @@ import { HttpClientService } from 'src/app/services/http-client.service';
 export class EditGigComponent implements OnInit {
 
   gigId: string;
-  clients: any;
-  locations: any;
-  filteredClients: Observable<any[]>;
-  filteredLocations: Observable<any[]>;
 
   editGigForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -32,86 +30,67 @@ export class EditGigComponent implements OnInit {
   });
 
   constructor(private http: HttpClientService,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private router: Router) {}
 
   ngOnInit(): void {
-    this.gigId = this.route.snapshot.paramMap.get('id');
+    this.gigId = this.route.snapshot.paramMap.get('id'); // get the gig id to edit from the url
     this.getGig();
-    this.getClients();
-    this.getLocations();
   }
 
+  // Get the current data from the api of the selected gig
   getGig(): void {
     this.http.get('/gigs/' + this.gigId + '/').subscribe(resp => {
       const response:any = resp.body;
-      this.editGigForm.controls.clientId.setValue(response.clientId);
-      this.editGigForm.patchValue(response);
+      this.editGigForm.patchValue(response); // set the form
+
+      // override the client id and location ID with the name (to the view) and ID to the formGroup
+      this.editGigForm.controls.clientId.setValue(response.client.data.name);
+      this.editGigForm.controls.clientId.setValue(response.client.data.id, {emitModelToViewChange: false});
+      this.editGigForm.controls.location_id.setValue(response.location.name);
+      this.editGigForm.controls.location_id.setValue(response.location.id, {emitModelToViewChange: false});
     });
   }
 
+  // submits the modified data back to the api
   editGig(): void {
-
-  }
-
-  // == AutoComplete ==
-  // Get all the active clients from Invoince Ninja
-  getClients(): void {
-    this.http.get('/ininja/clients/').subscribe(resp => {
-      const response:any = resp.body;
-      this.clients = response.data.filter((client: { is_deleted: any }) => !client.is_deleted);
-
-      this.initialiseAutoComplClient();
+    this.http.put('/gigs/' + this.gigId + '/', this.editGigForm.value).subscribe(resp => {
+      this.router.navigateByUrl('/admin/dashboard/gigs');
     });
   }
 
-  // Get all the locations from the api
-  getLocations(): void {
-    this.http.get('/locations/').subscribe(resp => {
-      const response:any = resp.body;
-      this.locations = response;
-
-      this.initialiseAutoComplLoc();
+  // Function which opens the client search dialog
+  openClientDialog() {
+    const clientDialogRef = this.dialog.open(AdminGenChooseDataDialogComponent, {
+      data: {
+        model: '/ininja/clients/',
+        displayedColumns: ['name'],
+        columnNames: ['Naam'],
+        title: 'Zoek klant'
+      }
     });
+
+    clientDialogRef.afterClosed().subscribe(result => {
+      this.editGigForm.controls.clientId.setValue(result.row.name);
+      this.editGigForm.controls.clientId.setValue(result.row.id, {emitModelToViewChange: false});
+    })
   }
 
-  initialiseAutoComplClient(): void {
-    // initalize the autocomplete
-    this.filteredClients = this.editGigForm.controls.clientId.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value;
-        return name ? this._filterClients(name as string) : this.clients.slice();
-      })
-    );
-  }
+  // Function which opens the location search dialog
+  openLocationDialog(): void {
+    const locDialogRef = this.dialog.open(AdminGenChooseDataDialogComponent, {
+      data: {
+        model: '/locations/',
+        displayedColumns: ['name'],
+        columnNames: ['Naam'],
+        title: 'Zoek locatie'
+      }
+    });
 
-  initialiseAutoComplLoc(): void {
-    this.filteredLocations = this.editGigForm.controls.location_id.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value;
-        return name ? this._filterLocations(name as string) : this.locations.slice();
-      })
-    );
-  }
-
-  // Filter the collection of clients based on the input of the user
-  private _filterClients(value: string): any[] {
-    const filterValue = value.toString().toLowerCase();
-    return this.clients.filter(client => client.name.toLowerCase().includes(filterValue));
-  }
-
-  private _filterLocations(value: string): any[] {
-    const filterValue = value.toString().toLowerCase();
-    return this.locations.filter(location => location.name.toLowerCase().includes(filterValue));
-  }
-
-  // Function which shows the name of the client in the form 
-  displayClientName(client: any): string {
-    return client && client.name ? client.name : '';
-  }
-
-  displayLocationName(location: any): string {
-    return location && location.name ? location.name : '';
+    locDialogRef.afterClosed().subscribe(result => {
+      this.editGigForm.controls.location_id.setValue(result.row.name);
+      this.editGigForm.controls.location_id.setValue(result.row.id, {emitModelToViewChange: false});
+    })
   }
 }

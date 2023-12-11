@@ -17,6 +17,7 @@ class LocationSerializer(serializers.ModelSerializer):
 class GigSerializer(serializers.ModelSerializer):
     location = LocationSerializer(read_only=True)
     client = serializers.SerializerMethodField()
+    location_id = serializers.PrimaryKeyRelatedField(queryset=Location.objects.all(), source='location', write_only=True)
 
     class Meta:
         model = Gig

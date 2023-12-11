@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 # Model containing the gig locations
 class Location(models.Model):
@@ -15,7 +16,7 @@ class Gig(models.Model):
     name = models.CharField(max_length=60)
     bookingId = models.CharField(max_length=10, default='')
     clientId = models.CharField(max_length=20) # foreign key to ext. Clients table
-    location = models.OneToOneField(Location, on_delete=models.CASCADE) # foreign key to locations model
+    location = models.OneToOneField(Location, on_delete=models.CASCADE, null=True) # foreign key to locations model
     date = models.DateField(auto_now=False, auto_now_add=False)
     start = models.TimeField(auto_now=False, auto_now_add=False)
     end = models.TimeField(auto_now=False, auto_now_add=False)
@@ -23,7 +24,16 @@ class Gig(models.Model):
     guests = models.IntegerField()
     sound = models.BooleanField()
     light = models.BooleanField()
-    notes = models.TextField()
+    notes = models.TextField(null=True)
+    
+    STATUSSES = {
+        "NW": "Nieuw",
+        "OFF": "Offerte",
+        "BEV": "Bevestigd",
+        "FAC": "Facturatie",
+        "BET": "Betaald"
+    }
+    status = models.CharField(max_length=2, choices=STATUSSES, default=STATUSSES.NW)
 
 # Model containing the API settings of Invoice Ninja
 class INinjaSetting(models.Model):
