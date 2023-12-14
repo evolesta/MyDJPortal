@@ -62,3 +62,8 @@ class PriceSettingViewSet(viewsets.ModelViewSet):
     queryset = PriceSetting.objects.all()
     serializer_class = PriceSettingSerializer
     permission_classes = [IsAuthenticated]
+
+class GigStatusViewSet(viewsets.ModelViewSet):
+    queryset = GigStatus.objects.all()
+    serializer_class = GigStatusSerializer
+    permission_classes = [IsAuthenticated]

@@ -27,6 +27,7 @@ router = routers.DefaultRouter()
 router.register(r'api/locations', views.LocationViewSet, basename = 'locations')
 router.register(r'api/gigs', views.GigViewSet, basename = 'gigs')
 router.register(r'api/pricesettings', views.PriceSettingViewSet)
+router.register(r'api/gigstatusses', views.GigStatusViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

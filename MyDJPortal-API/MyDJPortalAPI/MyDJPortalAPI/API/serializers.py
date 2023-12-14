@@ -14,10 +14,20 @@ class LocationSerializer(serializers.ModelSerializer):
         model = Location
         fields = '__all__'
 
+class GigStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GigStatus
+        fields = '__all__'
+
 class GigSerializer(serializers.ModelSerializer):
+    # Fields containing the related gig location
     location = LocationSerializer(read_only=True)
-    client = serializers.SerializerMethodField()
     location_id = serializers.PrimaryKeyRelatedField(queryset=Location.objects.all(), source='location', write_only=True)
+    # Field containing the client from Invoice Ninja
+    client = serializers.SerializerMethodField()
+    status = GigStatusSerializer(read_only=True)
+    # Field containing the gig status
+    status_id = serializers.PrimaryKeyRelatedField(queryset=GigStatus.objects.all(), source='status', write_only=True)
 
     class Meta:
         model = Gig

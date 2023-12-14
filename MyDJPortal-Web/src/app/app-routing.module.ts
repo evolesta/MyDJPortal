@@ -16,6 +16,7 @@ import { AdminGigsComponent } from './admin/admin-gigs/admin-gigs.component';
 import { AddGigComponent } from './admin/admin-gigs/add-gig/add-gig.component';
 import { AdminSettingsComponent } from './admin/admin-settings/admin-settings.component';
 import { EditGigComponent } from './admin/admin-gigs/edit-gig/edit-gig.component';
+import { FinanceComponent } from './admin/admin-gigs/finance/finance.component';
 
 const routes: Routes = [
   // Public routes
@@ -39,6 +40,7 @@ const routes: Routes = [
     { path: 'gigs', component: AdminGigsComponent, canActivate: [AuthGuardGuard] },
     { path: 'gigs/add', component: AddGigComponent, canActivate: [AuthGuardGuard] },
     { path: 'gigs/edit/:id', component: EditGigComponent, canActivate: [AuthGuardGuard] },
+    { path: 'gigs/finance/:id', component: FinanceComponent, canActivate: [AuthGuardGuard] },
     { path: 'settings', component: AdminSettingsComponent, canActivate: [AuthGuardGuard] },
   ] }
 ];

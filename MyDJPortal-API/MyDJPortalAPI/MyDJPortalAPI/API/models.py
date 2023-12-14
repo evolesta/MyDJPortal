@@ -11,12 +11,17 @@ class Location(models.Model):
     email = models.CharField(max_length=60, null=True, default='')
     contactName = models.CharField(max_length=25, default='', null=True)
 
+# Model which holds the statusses of a gig
+class GigStatus(models.Model):
+    name = models.CharField(max_length=30)
+    description = models.TextField(null=True)
+
 # Model containing the gigs
 class Gig(models.Model):
     name = models.CharField(max_length=60)
     bookingId = models.CharField(max_length=10, default='')
     clientId = models.CharField(max_length=20) # foreign key to ext. Clients table
-    location = models.OneToOneField(Location, on_delete=models.CASCADE, null=True) # foreign key to locations model
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True) # foreign key to locations model
     date = models.DateField(auto_now=False, auto_now_add=False)
     start = models.TimeField(auto_now=False, auto_now_add=False)
     end = models.TimeField(auto_now=False, auto_now_add=False)
@@ -25,15 +30,7 @@ class Gig(models.Model):
     sound = models.BooleanField()
     light = models.BooleanField()
     notes = models.TextField(null=True)
-    
-    STATUSSES = {
-        "NW": "Nieuw",
-        "OFF": "Offerte",
-        "BEV": "Bevestigd",
-        "FAC": "Facturatie",
-        "BET": "Betaald"
-    }
-    status = models.CharField(max_length=2, choices=STATUSSES, default=STATUSSES.NW)
+    status = models.ForeignKey(GigStatus, on_delete=models.CASCADE, null=True)
 
 # Model containing the API settings of Invoice Ninja
 class INinjaSetting(models.Model):

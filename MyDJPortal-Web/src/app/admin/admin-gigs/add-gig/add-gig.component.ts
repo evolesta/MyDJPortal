@@ -16,7 +16,7 @@ export class AddGigComponent implements OnInit {
   addGigForm = new FormGroup({
     name: new FormControl('', Validators.required),
     clientId: new FormControl('', Validators.required),
-    location_id: new FormControl(),
+    location_id: new FormControl('', Validators.required),
     date: new FormControl(),
     start: new FormControl(),
     end: new FormControl(),
@@ -24,14 +24,25 @@ export class AddGigComponent implements OnInit {
     guests: new FormControl(),
     sound: new FormControl(),
     light: new FormControl(),
-    notes: new FormControl()
+    notes: new FormControl(),
+    status_id: new FormControl('', Validators.required)
   });
+
+  gigStatusses: any;
 
   constructor(private http: HttpClientService,
     private router: Router,
     private dialog: MatDialog) {}
 
   ngOnInit(): void {
+    this.getGigStatusses();
+  }
+
+  getGigStatusses(): void {
+    this.http.get('/gigstatusses/').subscribe(resp => {
+      const response:any = resp.body;
+      this.gigStatusses = response;
+    });
   }
 
   addGig(): void {

@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Bewerk een status</h2>
+<mat-dialog-content>
+    <form [formGroup]="editGigStatusForm" (ngSubmit)="editStatus()">
+        <mat-form-field class="full-width">
+            <mat-label>Naam</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Beschrijving</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="primary"><mat-icon>save</mat-icon> Opslaan</button>
+    </form>
+</mat-dialog-content>

@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Voeg prijs toe</h2>
+
+<div mat-dialog-content>
+    <form [formGroup]="addPriceForm" (ngSubmit)="addNewPrice()">
+        <mat-form-field class="full-width">
+            <mat-label>Naam</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Omschrijving</mat-label>
+            <input matInput formControlName="description">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Prijs</mat-label>
+            <input type="number" matInput formControlName="price">
+        </mat-form-field>
+        <mat-checkbox formControlName="fixedPrice">Vaste prijs</mat-checkbox><br/>
+        <button mat-raised-button color="primary" type="submit"><mat-icon>save</mat-icon> Toevoegen</button>
+    </form>
+</div>

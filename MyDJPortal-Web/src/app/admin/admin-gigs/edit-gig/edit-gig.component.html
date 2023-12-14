@@ -51,6 +51,13 @@
     </section>
 
     <mat-form-field class="full-width">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status_id" required>
+            <mat-option *ngFor="let status of gigStatusses" [value]="status.id">{{status.name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
         <mat-label>Notities</mat-label>
         <textarea matInput formControlName="notes"></textarea>
     </mat-form-field>

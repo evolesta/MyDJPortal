@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -44,6 +44,20 @@ import { EditGigComponent } from './admin/admin-gigs/edit-gig/edit-gig.component
 import { DeleteGigComponent } from './admin/admin-gigs/delete-gig/delete-gig.component';
 import { AdminSettingsComponent } from './admin/admin-settings/admin-settings.component';
 import { AdminGenChooseDataDialogComponent } from './admin/admin-gen-choose-data-dialog/admin-gen-choose-data-dialog.component';
+import { AddGigstatusComponent } from './admin/admin-settings/add-gigstatus/add-gigstatus.component';
+import { EditGigstatusComponent } from './admin/admin-settings/edit-gigstatus/edit-gigstatus.component';
+import { DeleteGigstatusComponent } from './admin/admin-settings/delete-gigstatus/delete-gigstatus.component';
+import { MatSelectModule } from '@angular/material/select';
+import { DetailsGigComponent } from './admin/admin-gigs/details-gig/details-gig.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import localeNl from '@angular/common/locales/nl';
+import { DatePipe, registerLocaleData } from '@angular/common';
+import { AddPriceComponent } from './admin/admin-settings/add-price/add-price.component';
+import { EditPriceComponent } from './admin/admin-settings/edit-price/edit-price.component';
+import { DeletePriceComponent } from './admin/admin-settings/delete-price/delete-price.component';
+import { FinanceComponent } from './admin/admin-gigs/finance/finance.component'
+
+registerLocaleData(localeNl);
 
 @NgModule({
   declarations: [
@@ -67,6 +81,14 @@ import { AdminGenChooseDataDialogComponent } from './admin/admin-gen-choose-data
     DeleteGigComponent,
     AdminSettingsComponent,
     AdminGenChooseDataDialogComponent,
+    AddGigstatusComponent,
+    EditGigstatusComponent,
+    DeleteGigstatusComponent,
+    DetailsGigComponent,
+    AddPriceComponent,
+    EditPriceComponent,
+    DeletePriceComponent,
+    FinanceComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,11 +111,15 @@ import { AdminGenChooseDataDialogComponent } from './admin/admin-gen-choose-data
     MatDialogModule,
     MatAutocompleteModule,
     MatCheckboxModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSelectModule,
+    MatGridListModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+    { provide: LOCALE_ID, useValue: 'nl-NL' },
+    [DatePipe]
   ],
   bootstrap: [AppComponent]
 })

@@ -14,11 +14,12 @@ import { MatDialog } from '@angular/material/dialog';
 export class EditGigComponent implements OnInit {
 
   gigId: string;
+  gigStatusses: any;
 
   editGigForm = new FormGroup({
     name: new FormControl('', Validators.required),
     clientId: new FormControl('', Validators.required),
-    location_id: new FormControl(),
+    location_id: new FormControl('', Validators.required),
     date: new FormControl(),
     start: new FormControl(),
     end: new FormControl(),
@@ -26,7 +27,8 @@ export class EditGigComponent implements OnInit {
     guests: new FormControl(),
     sound: new FormControl(),
     light: new FormControl(),
-    notes: new FormControl()
+    notes: new FormControl(),
+    status_id: new FormControl('', Validators.required)
   });
 
   constructor(private http: HttpClientService,
@@ -36,6 +38,7 @@ export class EditGigComponent implements OnInit {
 
   ngOnInit(): void {
     this.gigId = this.route.snapshot.paramMap.get('id'); // get the gig id to edit from the url
+    this.getGigStatusses();
     this.getGig();
   }
 
@@ -50,6 +53,14 @@ export class EditGigComponent implements OnInit {
       this.editGigForm.controls.clientId.setValue(response.client.data.id, {emitModelToViewChange: false});
       this.editGigForm.controls.location_id.setValue(response.location.name);
       this.editGigForm.controls.location_id.setValue(response.location.id, {emitModelToViewChange: false});
+      this.editGigForm.controls.status_id.setValue(response.status.id);
+    });
+  }
+
+  getGigStatusses(): void {
+    this.http.get('/gigstatusses/').subscribe(resp => {
+      const response:any = resp.body;
+      this.gigStatusses = response;
     });
   }
 

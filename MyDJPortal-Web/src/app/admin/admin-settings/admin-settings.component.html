@@ -5,6 +5,7 @@
 
     <mat-tab label="Prijsinstellingen">
         <p>Wijzig de instellingen voor de prijzen die worden doorgevoerd in de offertes en facturen die automatisch in Invoice Ninja worden aangemaakt.</p>
+        <button mat-button (click)="openAddPriceDialog()"><mat-icon>add</mat-icon> Nieuwe prijs</button>
     
         <table mat-table [dataSource]="priceSettingsData">
             <ng-container matColumnDef="name">
@@ -24,11 +25,50 @@
 
             <ng-container matColumnDef="fixed">
                 <th mat-header-cell *matHeaderCellDef>Vaste prijs</th>
-                <td mat-cell *matCellDef="let element">{{element.fixed}}</td>
+                <td mat-cell *matCellDef="let element">{{yesOrNo(element.fixedPrice)}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef>Bewerken</th>
+                <td mat-cell *matCellDef="let element"><button mat-button (click)="openEditPriceDialog(element.id)"><mat-icon>edit</mat-icon></button></td>
+            </ng-container>
+
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef>Verwijderen</th>
+                <td mat-cell *matCellDef="let element"><button mat-button (click)="openDeletePriceDialog(element.id)"><mat-icon>delete</mat-icon></button></td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumnsPriceSettings"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsPriceSettings;"></tr>
+        </table>
+    </mat-tab>
+
+    <mat-tab label="Boekingsstatussen">
+        <p>Wijzig alle statussen die aan een boeking kunnen worden toegevoegd.</p>
+        <button mat-button (click)="openAddGigStatusDialog()"><mat-icon>add</mat-icon> Nieuwe status</button>
+
+        <table mat-table [dataSource]="gigStatusses">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Naam</th>
+            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Beschrijving</th>
+            <td mat-cell *matCellDef="let element">{{element.description}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef>Bewerken</th>
+            <td mat-cell *matCellDef="let element"><button mat-button (click)="openEditGigStatusDialog(element.id)"><mat-icon>edit</mat-icon></button></td>
+        </ng-container>
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef>Verwijderen</th>
+            <td mat-cell *matCellDef="let element"><button mat-button (click)="openDeleteGigStatusDialog(element.id)"><mat-icon>delete</mat-icon></button></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsGigStatusses"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsGigStatusses;"></tr>
         </table>
     </mat-tab>
 </mat-tab-group>
