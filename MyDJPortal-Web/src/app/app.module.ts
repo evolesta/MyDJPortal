@@ -55,7 +55,9 @@ import { DatePipe, registerLocaleData } from '@angular/common';
 import { AddPriceComponent } from './admin/admin-settings/add-price/add-price.component';
 import { EditPriceComponent } from './admin/admin-settings/edit-price/edit-price.component';
 import { DeletePriceComponent } from './admin/admin-settings/delete-price/delete-price.component';
-import { FinanceComponent } from './admin/admin-gigs/finance/finance.component'
+import { FinanceComponent } from './admin/admin-gigs/finance/finance.component';
+import { EditQuoteComponent } from './admin/admin-gigs/finance/edit-quote/edit-quote.component';
+import { DeleteQuoteComponent } from './admin/admin-gigs/finance/delete-quote/delete-quote.component'
 
 registerLocaleData(localeNl);
 
@@ -89,6 +91,8 @@ registerLocaleData(localeNl);
     EditPriceComponent,
     DeletePriceComponent,
     FinanceComponent,
+    EditQuoteComponent,
+    DeleteQuoteComponent,
   ],
   imports: [
     BrowserModule,
