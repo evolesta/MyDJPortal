@@ -1,53 +1,37 @@
 from django.shortcuts import render, get_object_or_404
 from .serializers import *
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import action
 import requests
 
-# Proxy view for handling request to the InvoiceNinja API
-class INinjaProxy(APIView):
-    # Get the API url and key from the model and create a new header containing the key
-    ininjasettings = INinjaSetting.objects.all()
-    ininjasettings = get_object_or_404(ininjasettings, pk=1)
-    newheaders = {'X-Api-Token': ininjasettings.apiKey}
-    
-    def get(self, request, endpoint, id=None):
-        if id is None:
-            url = self.ininjasettings.apiURL + '/' + endpoint
-        else:
-            url = self.ininjasettings.apiURL + '/' + endpoint + '/' + id
+class ClientViewSet(viewsets.ModelViewSet):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+    permission_classes = [IsAuthenticated]
 
-        response = requests.get(url, headers=self.newheaders)
-        return Response(response.json())
-    
-    def post(self, request, endpoint, id=None):
-        if id is None:
-            url = self.ininjasettings.apiURL + '/' + endpoint
+    # custom create method because to generate a new unique client nr
+    def create(self, request, *args, **kwargs):
+        # retrieve the last created client object from the model
+        last_client = Client.objects.order_by('number').first()
+        settings = Setting.objects.get(pk=1)
+
+        # check if the query returned a client, if not, use the start nr from the settings model
+        if not last_client:
+            new_nr = settings.clientNrStartAt + 1
         else:
-            url = self.ininjasettings.apiURL + '/' + endpoint + '/' + id
-        postData = request.data
-        response = requests.post(url, json=postData, headers=self.newheaders)
-        return Response(response.json())
-    
-    def put(self, request, endpoint, id=None):
-        if id is None:
-            url = self.ininjasettings.apiURL + '/' + endpoint
-        else:
-            url = self.ininjasettings.apiURL + '/' + endpoint + '/' + id
-        postData = request.data
-        response = requests.put(url, json=postData, headers=self.newheaders)
-        return Response(response.json())
-    
-    def delete(self, request, endpoint, id=None):
-        if id is None:
-            url = self.ininjasettings.apiURL + '/' + endpoint
-        else:
-            url = self.ininjasettings.apiURL + '/' + endpoint + '/' + id
-        response = requests.delete(url, headers=self.newheaders)
-        return Response(response.json())
+            new_nr = last_client.number + 1
+
+        # modify the body of the request
+        request.data['number'] = settings.clientNrPrefix + '-' + str(new_nr)
+
+        # proceed to add the new data to the model
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 class LocationViewSet(viewsets.ModelViewSet):
     queryset = Location.objects.all()
@@ -57,62 +41,7 @@ class LocationViewSet(viewsets.ModelViewSet):
 class GigViewSet(viewsets.ModelViewSet):
     queryset = Gig.objects.select_related('location')
     serializer_class = GigSerializer
-    permission_classes = [IsAuthenticated]
-
-    @action(detail=True, methods=['get'], url_path='invoices')
-    # Helper function to obtain all the invoices which are related to a specific gig
-    def get_invoices(self, request, pk=None):
-        ininjasettings = INinjaSetting.objects.all()
-        ininjasettings = get_object_or_404(ininjasettings, pk=1)
-        newheaders = {'X-Api-Token': ininjasettings.apiKey}
-
-        invoiceIds = Gig.objects.all()
-        invoiceIds = get_object_or_404(invoiceIds, pk=pk)
-
-        invoices = []
-
-        for id in invoiceIds.invoiceIds:
-            response = requests.get(ininjasettings.apiURL + '/invoices/' + id, headers=newheaders)
-            if response.status_code == 200:
-                invoices.append(response.json()['data'])
-            
-        return Response(invoices)
-    
-    @action(detail=True, methods=['get'], url_path='quotes')
-    def get_quotes(self, request, pk=None):
-        ininjasettings = INinjaSetting.objects.all()
-        ininjasettings = get_object_or_404(ininjasettings, pk=1)
-        newheaders = {'X-Api-Token': ininjasettings.apiKey}
-
-        quoteIds = Gig.objects.all()
-        quoteIds = get_object_or_404(quoteIds, pk=pk)
-
-        quotes = []
-
-        for id in quoteIds.quoteIds:
-            response = requests.get(ininjasettings.apiURL + '/quotes/' + id, headers=newheaders)
-            if response.status_code == 200:
-                quotes.append(response.json()['data'])
-            
-        return Response(quotes)
-    
-    @action(detail=True, methods=['post'], url_path='addquote')
-    def add_quote(self, request, pk=None):
-        gig = Gig.objects.all()
-        gig = get_object_or_404(gig, pk=pk)
-
-        gig.quoteIds.append(request.data.get('quoteId'))
-        gig.save()
-        return Response(self.get_serializer(gig).data)
-
-    @action(detail=True, methods=['post'], url_path='removequote')
-    def edit_quote(self, request, pk=None):
-        gig = Gig.objects.all()
-        gig = get_object_or_404(gig, pk=pk)
-
-        gig.quoteIds.remove(request.data.get('quoteId'))
-        gig.save()
-        return Response(self.get_serializer(gig).data)
+    permission_classes = [IsAuthenticated] 
 
 class PriceSettingViewSet(viewsets.ModelViewSet):
     queryset = PriceSetting.objects.all()
@@ -123,3 +52,29 @@ class GigStatusViewSet(viewsets.ModelViewSet):
     queryset = GigStatus.objects.all()
     serializer_class = GigStatusSerializer
     permission_classes = [IsAuthenticated]
+
+class InvoiceViewSet(viewsets.ModelViewSet):
+    queryset = Invoice.objects.all()
+    serializer_class = InvoiceSerializer
+    permission_classes = [IsAuthenticated]
+
+class QuoteViewSet(viewsets.ModelViewSet):
+    queryset = Quote.objects.all()
+    serializer_class = QuoteSerializer
+    permission_classes = [IsAuthenticated]
+
+# Custom viewset which only returns the first row and only updates the first row
+class SettingViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+    
+    def list(self, request):
+        queryset = Setting.objects.get(pk=1)
+        serializer = SettingSerializer(queryset)
+        return Response(serializer.data)
+    
+    def update(self, request, pk=1):
+        queryset = Setting.objects.get(pk=1)
+        serializer = SettingSerializer(queryset, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)

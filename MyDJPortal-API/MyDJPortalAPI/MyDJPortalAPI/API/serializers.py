@@ -4,14 +4,14 @@ from rest_framework import serializers
 from .models import *
 import requests
 
-class INinjaSettingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = INinjaSetting
-        fields = ['apiURL', 'apiKey']
-
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
+        fields = '__all__'
+
+class ClientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Client
         fields = '__all__'
 
 class GigStatusSerializer(serializers.ModelSerializer):
@@ -24,31 +24,30 @@ class GigSerializer(serializers.ModelSerializer):
     location = LocationSerializer(read_only=True)
     location_id = serializers.PrimaryKeyRelatedField(queryset=Location.objects.all(), source='location', write_only=True)
     # Field containing the client from Invoice Ninja
-    client = serializers.SerializerMethodField()
     status = GigStatusSerializer(read_only=True)
     # Field containing the gig status
     status_id = serializers.PrimaryKeyRelatedField(queryset=GigStatus.objects.all(), source='status', write_only=True)
 
     class Meta:
         model = Gig
-        fields = '__all__'
-
-    def get_client(self, obj):
-        clientId = obj.clientId
-        clientData = get_client_id(clientId)
-        return clientData        
+        fields = '__all__'    
 
 class PriceSettingSerializer(serializers.ModelSerializer):
     class Meta:
         model = PriceSetting
         fields = '__all__'
 
-# helper function to get a specific client from Invoice Ninja
-def get_client_id(clientId):
-    # Get the API url and key from the model and create a new header containing the key
-    ininjasettings = INinjaSetting.objects.all()
-    ininjasettings = get_object_or_404(ininjasettings, pk=1)
-    newheaders = {'X-Api-Token': ininjasettings.apiKey}
+class QuoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Quote
+        fields = '__all__'
 
-    response = requests.get(ininjasettings.apiURL + '/clients/' + clientId, headers=newheaders)
-    return response.json()
+class InvoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Invoice
+        fields = '__all__'
+
+class SettingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Setting
+        fields = '__all__'

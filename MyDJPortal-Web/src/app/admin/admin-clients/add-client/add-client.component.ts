@@ -12,22 +12,21 @@ export class AddClientComponent {
 
   addClientForm = new FormGroup({
     name: new FormControl('', Validators.required),
-    address1: new FormControl(),
-    postal_code: new FormControl(),
-    city: new FormControl(),
-    contacts: new FormGroup({
-      first_name: new FormControl(),
-      last_name: new FormControl(),
-      email: new FormControl(),
-      phone: new FormControl()
-    })
+    number: new FormControl(),
+    firstName: new FormControl(),
+    lastName: new FormControl(),
+    emailAddress: new FormControl(),
+    phone: new FormControl(),
+    address: new FormControl(),
+    postalCode: new FormControl(),
+    city: new FormControl()
   });
 
   constructor(private http: HttpClientService,
     private router: Router) {}
 
   addClient(): void {
-    this.http.post('/ininja/clients/', this.addClientForm.value).subscribe(resp => {
+    this.http.post('/clients/', this.addClientForm.value).subscribe(resp => {
       this.router.navigateByUrl('/admin/dashboard/clients');
     });
   }

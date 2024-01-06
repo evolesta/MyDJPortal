@@ -24,10 +24,14 @@ from rest_framework_simplejwt.views import (
 )
 
 router = routers.DefaultRouter()
+router.register(r'api/clients', views.ClientViewSet)
 router.register(r'api/locations', views.LocationViewSet, basename = 'locations')
 router.register(r'api/gigs', views.GigViewSet, basename = 'gigs')
 router.register(r'api/pricesettings', views.PriceSettingViewSet)
 router.register(r'api/gigstatusses', views.GigStatusViewSet)
+router.register(r'api/quotes', views.QuoteViewSet)
+router.register(r'api/invoices', views.InvoiceViewSet)
+router.register(r'api/settings', views.SettingViewSet, basename = 'settings')
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -35,8 +39,4 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
-
-    # Proxy route for the InvoiceNinja API
-    path('api/ininja/<str:endpoint>/', views.INinjaProxy.as_view(), name='ininjaProxy'),
-    path('api/ininja/<str:endpoint>/<str:id>/', views.INinjaProxy.as_view(), name='ininjaProxy'),
 ]

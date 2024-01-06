@@ -24,9 +24,9 @@ export class AdminClientsComponent implements OnInit {
   }
 
   getClients(): void {
-    this.http.get('/ininja/clients/').subscribe(resp => {
+    this.http.get('/clients/').subscribe(resp => {
       const response:any = resp.body;
-      this.clientsData = new MatTableDataSource(response.data.filter(item => item.is_deleted === false));
+      this.clientsData = new MatTableDataSource(response);
       this.clientsData.paginator = this.paginator;
     });
   }
