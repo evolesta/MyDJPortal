@@ -15,7 +15,7 @@ export class AddGigComponent implements OnInit {
 
   addGigForm = new FormGroup({
     name: new FormControl('', Validators.required),
-    clientId: new FormControl('', Validators.required),
+    client_id: new FormControl('', Validators.required),
     location_id: new FormControl('', Validators.required),
     date: new FormControl(),
     start: new FormControl(),
@@ -61,7 +61,7 @@ export class AddGigComponent implements OnInit {
   openClientDialog() {
     const clientDialogRef = this.dialog.open(AdminGenChooseDataDialogComponent, {
       data: {
-        model: '/ininja/clients/',
+        model: '/clients/',
         displayedColumns: ['name'],
         columnNames: ['Naam'],
         title: 'Zoek klant'
@@ -69,8 +69,8 @@ export class AddGigComponent implements OnInit {
     });
 
     clientDialogRef.afterClosed().subscribe(result => {
-      this.addGigForm.controls.clientId.setValue(result.row.name);
-      this.addGigForm.controls.clientId.setValue(result.row.id, {emitModelToViewChange: false});
+      this.addGigForm.controls.client_id.setValue(result.row.name);
+      this.addGigForm.controls.client_id.setValue(result.row.id, {emitModelToViewChange: false});
     })
   }
 

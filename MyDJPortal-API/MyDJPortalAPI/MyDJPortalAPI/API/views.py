@@ -22,7 +22,9 @@ class ClientViewSet(viewsets.ModelViewSet):
         if not last_client:
             new_nr = settings.clientNrStartAt + 1
         else:
-            new_nr = last_client.number + 1
+            lastClientNr = last_client.number
+            lastClientNr = lastClientNr.split('-')
+            new_nr = int(lastClientNr[1]) + 1
 
         # modify the body of the request
         request.data['number'] = settings.clientNrPrefix + '-' + str(new_nr)

@@ -31,7 +31,7 @@ class GigStatus(models.Model):
 class Gig(models.Model):
     name = models.CharField(max_length=60)
     bookingId = models.CharField(max_length=10, default='')
-    clientId = models.CharField(max_length=20) # foreign key to ext. Clients table
+    client = models.ForeignKey(Client, on_delete=models.PROTECT)
     location = models.ForeignKey(Location, on_delete=models.PROTECT, null=True) # foreign key to locations model
     date = models.DateField(auto_now=False, auto_now_add=False)
     start = models.TimeField(auto_now=False, auto_now_add=False)

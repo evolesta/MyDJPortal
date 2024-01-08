@@ -12,19 +12,17 @@ export class EditClientComponent implements OnInit {
 
   editClientForm = new FormGroup({
     name: new FormControl('', Validators.required),
-    address1: new FormControl(),
-    postal_code: new FormControl(),
-    city: new FormControl(),
-    contacts: new FormGroup({
-      first_name: new FormControl(),
-      last_name: new FormControl(),
-      email: new FormControl(),
-      phone: new FormControl()
-    })
+    number: new FormControl(),
+    firstName: new FormControl(),
+    lastName: new FormControl(),
+    emailAddress: new FormControl(),
+    phone: new FormControl(),
+    address: new FormControl(),
+    postalCode: new FormControl(),
+    city: new FormControl()
   });
 
   clientId: string;
-  client: any;
 
   constructor(private route: ActivatedRoute,
     private http: HttpClientService,
@@ -37,16 +35,14 @@ export class EditClientComponent implements OnInit {
   }
 
   getClient(): void {
-    this.http.get('/ininja/clients/' + this.clientId + '/').subscribe(resp => {
+    this.http.get('/clients/' + this.clientId + '/').subscribe(resp => {
       const response:any = resp.body;
-      this.client = response.data;
-      this.editClientForm.patchValue(response.data);
-      this.editClientForm.get('contacts').patchValue(response.data.contacts[0]);
+      this.editClientForm.patchValue(response);
     });
   }
 
   editClient() {
-    this.http.put('/ininja/clients/' + this.clientId + '/', this.editClientForm.value).subscribe(resp => {
+    this.http.put('/clients/' + this.clientId + '/', this.editClientForm.value).subscribe(resp => {
       this.router.navigateByUrl('/admin/dashboard/clients');
     });
   }

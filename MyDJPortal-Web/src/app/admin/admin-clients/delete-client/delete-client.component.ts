@@ -15,7 +15,7 @@ export class DeleteClientComponent {
     @Inject(MAT_DIALOG_DATA) public data) {}
 
   deleteClient(): void {
-    this.http.delete('/ininja/clients/' + this.data.id + '/').subscribe(resp => {
+    this.http.delete('/clients/' + this.data.id + '/').subscribe(resp => {
       this.dialog.closeAll();
     });
   }

@@ -18,7 +18,7 @@ export class EditGigComponent implements OnInit {
 
   editGigForm = new FormGroup({
     name: new FormControl('', Validators.required),
-    clientId: new FormControl('', Validators.required),
+    client_id: new FormControl('', Validators.required),
     location_id: new FormControl('', Validators.required),
     date: new FormControl(),
     start: new FormControl(),
@@ -49,8 +49,8 @@ export class EditGigComponent implements OnInit {
       this.editGigForm.patchValue(response); // set the form
 
       // override the client id and location ID with the name (to the view) and ID to the formGroup
-      this.editGigForm.controls.clientId.setValue(response.client.data.name);
-      this.editGigForm.controls.clientId.setValue(response.client.data.id, {emitModelToViewChange: false});
+      this.editGigForm.controls.client_id.setValue(response.client.name);
+      this.editGigForm.controls.client_id.setValue(response.client.id, {emitModelToViewChange: false});
       this.editGigForm.controls.location_id.setValue(response.location.name);
       this.editGigForm.controls.location_id.setValue(response.location.id, {emitModelToViewChange: false});
       this.editGigForm.controls.status_id.setValue(response.status.id);
@@ -83,8 +83,8 @@ export class EditGigComponent implements OnInit {
     });
 
     clientDialogRef.afterClosed().subscribe(result => {
-      this.editGigForm.controls.clientId.setValue(result.row.name);
-      this.editGigForm.controls.clientId.setValue(result.row.id, {emitModelToViewChange: false});
+      this.editGigForm.controls.client_id.setValue(result.row.name);
+      this.editGigForm.controls.client_id.setValue(result.row.id, {emitModelToViewChange: false});
     })
   }
 
