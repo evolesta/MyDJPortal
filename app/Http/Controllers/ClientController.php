@@ -10,10 +10,18 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clients = Client::all();
-        return view('admin.clients.clients', ['clients' => $clients, 'status' => 'test']);
+        if ($request->has('search')) {
+            $clients = Client::where('name', 'like', '%' . $request->search . '%')
+            ->where('deleted', false)
+            ->paginate(10);
+        }
+        else {
+            $clients = Client::where('deleted', false)->paginate(10);
+        }
+
+        return view('admin.clients.clients', ['clients' => $clients]);
     }
 
     /**
@@ -56,7 +64,7 @@ class ClientController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**
@@ -64,7 +72,8 @@ class ClientController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $client = Client::find($id);
+        return view('admin.clients.editclient', ['client' => $client]);
     }
 
     /**
@@ -72,7 +81,26 @@ class ClientController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validate body
+        $payload = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email'
+        ]);
+
+        // modify object and save into DB
+        $client = Client::find($id);
+        $client->name = $request->name;
+        $client->first_name = $request->first_name;
+        $client->last_name = $request->last_name;
+        $client->address = $request->address;
+        $client->postal_code = $request->postal_code;
+        $client->location = $request->location;
+        $client->phone = $request->phone;
+        $client->email = $request->email;
+        $client->save();
+
+        return redirect('admin/clients')
+            ->with('status', 'Klant succesvol gewijzigd.');
     }
 
     /**
@@ -80,6 +108,12 @@ class ClientController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Get client and set it to deleted
+        $client = Client::find($id);
+        $client->deleted = true;
+        $client->save();
+
+        return redirect('admin/clients')
+            ->with('status', 'Klant succesvol verwijderd.');
     }
 }

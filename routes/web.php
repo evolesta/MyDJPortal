@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\GigController;
+use App\Http\Controllers\LocationController;
 
 Route::get('/', function () {
     return view('base');
@@ -23,4 +25,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Resource routes
     Route::resource('/admin/clients', ClientController::class);
+    Route::resource('/admin/gigs', GigController::class);
+    Route::resource('/admin/locations', LocationController::class);
 });
