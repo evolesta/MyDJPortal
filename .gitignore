@@ -8,3 +8,5 @@ Backend-API/MyDJPortal/db.sqlite3
 Backend-API/MyDJPortal/MyDJPortal/__pycache__/
 
 Backend-API/MyDJPortal/MyDJPortal/settings.py
+
+Front-end/.vscode/
