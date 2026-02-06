@@ -1,0 +1,10 @@
+
+Backend-API/MyDJPortal/API/__pycache__/
+
+Backend-API/MyDJPortal/API/migrations/__pycache__/
+
+Backend-API/MyDJPortal/db.sqlite3
+
+Backend-API/MyDJPortal/MyDJPortal/__pycache__/
+
+Backend-API/MyDJPortal/MyDJPortal/settings.py
