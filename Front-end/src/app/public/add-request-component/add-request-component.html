@@ -1,0 +1,34 @@
+<div class="card card-primary box">
+    <div class="card-header">
+        <h1 class="card-title">Nieuw verzoekje</h1>
+    </div>
+
+    <div class="card-body">
+        <p>Voeg een nieuw verzoekje toe aan de wachtrij om door te geven aan de DJ.</p>
+
+        <form [formGroup]="addRequestForm" (ngSubmit)="addRequest()">
+            <div class="mb-3">
+                <label for="aanvrager" class="form-label">Jouw naam</label>
+                <input type="text" class="form-control" id="aanvrager" formControlName="requester">
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="artist" class="form-label">Artiest</label>
+                    <input type="text" class="form-control" id="artist" formControlName="artist">
+                </div>
+                <div class="col">
+                    <label for="title" class="form-label">Titel</label>
+                    <input type="text" class="form-control" id="title" formControlName="title">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Bericht (optioneel)</label>
+                <textarea class="form-control" id="message" rows="3" formControlName="message"></textarea>
+            </div>
+
+            <p style="font-size: 12px;"><b>Let op:</b> verzoekjes kunnen i.v.m. beschikbaarheid, afspraken of niet passen in de stijl van het feest <u>overgeslagen</u> worden.</p>
+            
+            <button type="submit" class="btn btn-primary"><i class="fas fa-record-vinyl"></i> Toevoegen aan wachtrij</button>
+        </form>
+    </div> 
+</div>
