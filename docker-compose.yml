@@ -1,0 +1,80 @@
+version: "3.9"
+
+services:
+  traefik:
+    image: traefik:v3.6.1
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=web"
+      - "--entrypoints.web.address=:80"
+      - "--log.level=DEBUG"
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - web
+
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  backend:
+    build: ./Backend-API
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      DB_NAME: mydatabase
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+      DB_HOST: db
+      DB_PORT: 5432
+      DJANGO_SUPERUSER_USERNAME: admin
+      DJANGO_SUPERUSER_EMAIL: test@gebruiker.nl
+      DJANGO_SUPERUSER_PASSWORD: TEST123
+    labels:
+      - "traefik.enable=true"
+      # Backend only handles API + Admin
+      - "traefik.http.routers.backend.rule=PathPrefix(`/api`) || PathPrefix(`/admin`) || PathPrefix(`/static`)"
+      - "traefik.http.routers.backend.entrypoints=web"
+      - "traefik.http.routers.backend.priority=100"
+      - "traefik.docker.network=web"
+      - "traefik.http.services.backend.loadbalancer.server.port=8000"
+    networks:
+      - internal
+      - web
+
+  frontend:
+    build: ./Frontend
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      
+      # Catch everything else
+      - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.frontend.entrypoints=web"
+      - "traefik.http.routers.frontend.priority=1"
+      
+      - "traefik.http.services.frontend.loadbalancer.server.port=80"
+    networks:
+      - web
+
+volumes:
+  postgres_data:
+
+networks:
+  web:
+    name: web
+  internal:

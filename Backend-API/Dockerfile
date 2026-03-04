@@ -1,36 +1,21 @@
-# -------- Base Image --------
 FROM python:3.12-slim
+
+WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /app
-
-# Install system deps
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
+RUN apt-get update && apt-get install -y \
+    gcc \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
 COPY requirements.txt .
-RUN pip install --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-# Copy project
 COPY . .
 
-# Create non-root user
-RUN adduser --disabled-password --gecos '' appuser \
-    && chown -R appuser:appuser /app
+RUN chmod +x entrypoint.sh
 
-USER appuser
-
-EXPOSE 8000
-
-WORKDIR /app/MyDJPortal
-CMD ["gunicorn", "MyDJPortal.wsgi:application", \
-     "--bind", "0.0.0.0:8000", \
-     "--workers", "3", \
-     "--threads", "2", \
-     "--timeout", "120"]
+ENTRYPOINT ["./entrypoint.sh"]

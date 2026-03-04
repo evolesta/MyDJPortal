@@ -5,7 +5,7 @@ set -e
 
 # --- CONFIG ---
 DJANGO_DIR="$HOME/Documents/Repos/MyDJPortal/Backend-API"
-ANGULAR_DIR="$HOME/Documents/Repos/MyDJPortal/Front-end"
+ANGULAR_DIR="$HOME/Documents/Repos/MyDJPortal/Frontend"
 
 DJANGO_PORT=8000
 ANGULAR_PORT=4200
@@ -23,7 +23,7 @@ trap cleanup EXIT
 echo "Starting Django server..."
 cd "$DJANGO_DIR"
 source ./venv/bin/activate
-python MyDJPortal/manage.py runserver $DJANGO_PORT &
+python manage.py runserver $DJANGO_PORT &
 DJANGO_PID=$!
 
 # --- START ANGULAR ---
