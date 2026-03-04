@@ -11,8 +11,6 @@ services:
       - "--providers.docker.network=web"
       - "--entrypoints.web.address=:80"
       - "--log.level=DEBUG"
-    ports:
-      - "80:80"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
@@ -22,9 +20,9 @@ services:
     image: postgres:15
     restart: unless-stopped
     environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: ${DBNAME}
+      POSTGRES_USER: ${DBUSER}
+      POSTGRES_PASSWORD: ${DBPASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -36,14 +34,15 @@ services:
     depends_on:
       - db
     environment:
-      DB_NAME: mydatabase
-      DB_USER: myuser
-      DB_PASSWORD: mypassword
+      DB_NAME: ${DBNAME}
+      DB_USER: ${DBUSER}
+      DB_PASSWORD: ${DBPASSWORD}
       DB_HOST: db
       DB_PORT: 5432
-      DJANGO_SUPERUSER_USERNAME: admin
-      DJANGO_SUPERUSER_EMAIL: test@gebruiker.nl
-      DJANGO_SUPERUSER_PASSWORD: TEST123
+      DJANGO_SUPERUSER_USERNAME: ${DJANGOUSER}
+      DJANGO_SUPERUSER_EMAIL: ${DJANGOEMAIL}
+      DJANGO_SUPERUSER_PASSWORD: ${DJANGOPASSWORD}
+      DOMAIN: ${DOMAIN}
     labels:
       - "traefik.enable=true"
       # Backend only handles API + Admin
