@@ -27,7 +27,7 @@ export class Login {
       next: (resp) => {
         const body:any = resp.body;
         localStorage.setItem('token', body.access);
-        this.router.navigateByUrl('/admin/dashboard');
+        this.router.navigateByUrl('/admin/home');
       },
       error: (err) => {
         if (environment.debug)

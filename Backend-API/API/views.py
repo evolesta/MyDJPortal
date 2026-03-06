@@ -1,24 +1,18 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListCreateAPIView
+from rest_framework.views import APIView
 
 from django.shortcuts import get_object_or_404, render
 from API.models import *
 from API.serializers import *
 from .permissions import BlockWhenActivePermission
 
-class ClientViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    queryset = Client.objects.all()
-    serializer_class = ClientSerializer
+## PUBLIC ROUTES ##
 
-class GigViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    queryset = Gig.objects.all()
-    serializer_class = GigSerializer
-        
+# GET and POST endpoints for requests 
 class RequestListCreateView(ListCreateAPIView):
     serializer_class = RequestSerializer
 
@@ -50,3 +44,32 @@ class RequestSettingViewSet(viewsets.ViewSet):
         data = get_object_or_404(queryset, pk=1)
         serializer = RequestSettingSerializer(data)
         return Response(serializer.data)    
+    
+## SECURED ROUTES ##
+
+# Endpoint for DJs submitting a played request
+class SubmitPlayedRequestView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk):
+        # Fetch the object
+        request_obj = get_object_or_404(Request, pk=pk)
+
+        request_obj.completed = not request_obj.completed
+        request_obj.save()
+
+        return Response({
+            'id': request_obj.id,
+            'active': request_obj.completed,
+            'message': f"Request marked as {'active' if request_obj.completed else 'inactive'}."
+        }, status=status.HTTP_200_OK)
+    
+class ClientViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+
+class GigViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Gig.objects.all()
+    serializer_class = GigSerializer

@@ -24,6 +24,11 @@ export class HttpService {
     return this.http.put(environment.apiurl + endpoint, body, { observe: 'response'});
   }
 
+  public patch(endpoint: string, body: any)
+  {
+    return this.http.patch(environment.apiurl + endpoint, body, { observe: 'response'});
+  }
+
   public delete(endpoint: string)
   {
     return this.http.delete(environment.apiurl + endpoint, { observe: 'response'});
