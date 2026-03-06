@@ -2,10 +2,11 @@ import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { HttpService } from '../../helpers/http-service';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dj-request',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './dj-request.html',
   styleUrl: './dj-request.css',
 })

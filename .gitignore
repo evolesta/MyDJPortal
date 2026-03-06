@@ -1,5 +1,3 @@
-Backend-API/MyDJPortal/db.sqlite3
-
 Backend-API/MyDJPortal/MyDJPortal/settings.py
 
 Front-end/.vscode/
@@ -8,4 +6,4 @@ Front-end/.vscode/
 
 *.pyc
 
-Backend-API/db.sqlite3
+*.sqlite3

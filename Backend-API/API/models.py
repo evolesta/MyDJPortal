@@ -22,7 +22,7 @@ class Request(models.Model):
     requester = models.CharField(max_length=20)
     artist =  models.CharField(max_length=50)
     title = models.CharField(max_length=50)
-    message = models.TextField(null=True)
+    message = models.TextField(blank=True, null=True)
     completed = models.BooleanField(default=False)
 
 class RequestSetting(models.Model):
