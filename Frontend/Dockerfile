@@ -18,7 +18,7 @@ FROM nginx:stable-alpine
 COPY --from=build /app/dist/Front-end/browser /usr/share/nginx/html
 
 # Copy a custom nginx configuration if you have one (optional)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
