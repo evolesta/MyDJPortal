@@ -7,3 +7,5 @@ Front-end/.vscode/
 .env
 
 *.pyc
+
+Backend-API/db.sqlite3

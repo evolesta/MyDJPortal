@@ -34,5 +34,6 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/requests/', views.RequestListCreateView.as_view(), name='request-list-create')
+    path('api/requests/', views.RequestListCreateView.as_view(), name='request-list-create'),
+    path('api/requests/<int:pk>/toggle/', views.SubmitPlayedRequestView.as_view(), name='toggle-request')
 ]
