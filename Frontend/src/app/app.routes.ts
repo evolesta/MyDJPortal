@@ -11,9 +11,9 @@ import { DjRequestAdd } from './admin/dj-request-add/dj-request-add';
 export const routes: Routes = [
     { path: '', component: RequestComponent },
     { path: 'request/add', component: AddRequestComponent },
-    { path: 'admin/login', component: Login },
+    { path: 'dj/login', component: Login },
     { 
-        path: 'admin', 
+        path: 'dj', 
         component: BaseComponent,
         canActivate: [guardGuard],
         children: [

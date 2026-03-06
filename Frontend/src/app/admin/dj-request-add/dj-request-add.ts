@@ -25,7 +25,7 @@ export class DjRequestAdd {
   addRequest(): void {
     if (this.addRequestForm.status == 'VALID')
       this.http.post('/requests/', this.addRequestForm.value).subscribe(resp => {
-        this.router.navigateByUrl('/admin/requests');
+        this.router.navigateByUrl('/dj/requests');
     });
   }
 
