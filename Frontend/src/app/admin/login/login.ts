@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { HttpService } from '../../helpers/http-service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -18,8 +18,11 @@ export class Login {
     password: new FormControl('', Validators.required)
   });
 
+  error: boolean = false;
+
   constructor(private http: HttpService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   login(): void {
@@ -27,9 +30,12 @@ export class Login {
       next: (resp) => {
         const body:any = resp.body;
         localStorage.setItem('token', body.access);
-        this.router.navigateByUrl('/admin/home');
+        this.router.navigateByUrl('/dj/home');
       },
       error: (err) => {
+        this.error = true;
+        this.cdr.detectChanges();
+
         if (environment.debug)
           console.log(err);
       }

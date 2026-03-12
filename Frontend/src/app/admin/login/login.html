@@ -4,6 +4,12 @@
             <h1>Login</h1>
         </div>
         <div class="card-body">
+            @if (error) {
+                <div class="alert alert-danger" role="alert">
+                    Onbekende inloggegevens.
+                </div>
+            }
+
             <form [formGroup]="loginForm" (ngSubmit)="login()">
                 <div class="mb-3">
                     <label for="username" class="form-label">Gebruikersnaam</label>

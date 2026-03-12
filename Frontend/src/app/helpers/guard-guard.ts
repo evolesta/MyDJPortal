@@ -19,13 +19,13 @@ export const guardGuard: CanActivateFn = (route, state) => {
       }
       else {
         // token expired - redirect user
-        router.navigateByUrl('/admin/login');
+        router.navigateByUrl('/dj/login');
         return false;
       }
     }
     else {
       // no token in localstorage
-      router.navigateByUrl('/admin/login');
+      router.navigateByUrl('/dj/login');
       return false;
     }
   } 

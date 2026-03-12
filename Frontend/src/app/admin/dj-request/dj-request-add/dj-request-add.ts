@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpService } from '../../helpers/http-service';
+import { HttpService } from '../../../helpers/http-service';
 
 @Component({
   selector: 'app-dj-request-add',

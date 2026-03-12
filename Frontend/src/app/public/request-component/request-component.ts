@@ -13,7 +13,7 @@ export class RequestComponent implements OnInit {
 
   // global vars
   requestData: any;
-  requestSettings: any;
+  requestSettings: any = '';
   
   constructor(private http: HttpService,
     private cdr: ChangeDetectorRef

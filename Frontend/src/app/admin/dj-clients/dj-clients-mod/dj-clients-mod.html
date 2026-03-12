@@ -1,0 +1,44 @@
+<h1>Klant muteren</h1>
+
+<form [formGroup]="modClientForm" (ngSubmit)="modClient()">
+  <div class="form-group">
+
+    <label for="name">Naam</label>
+    <input type="text" class="form-control" id="name" formControlName="name">
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="firstName">Voornaam</label>
+      <input type="text" class="form-control" id="firstName" placeholder="Voornaam" formControlName="firstName">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="lastName">Achternaam</label>
+      <input type="text" class="form-control" id="lastName" placeholder="Achternaam" formControlName="lastName">
+    </div>
+  </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="address">Adres</label>
+        <input type="text" id="addres" class="form-control" placeholder="Adres" formControlName="address">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="postalCode">Postcode</label>
+        <input type="text" id="postalCode" class="form-control" placeholder="Postcode" formControlName="postalCode">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="location">Woonplaats</label>
+        <input type="text" id="city" class="form-control" placeholder="Woonplaats" formControlName="city">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="email">E-mailadres</label>
+        <input type="email" id="email" class="form-control" formControlName="email">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="phone">Telefoonnummer</label>
+        <input type="tel" class="form-control" id="phone" formControlName="phone">
+      </div>
+    </div>
+  <button type="submit" class="btn btn-primary">Muteer klant</button>
+</form>

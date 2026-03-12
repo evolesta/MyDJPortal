@@ -1,12 +1,12 @@
 from API.models import *
 from rest_framework import serializers
 
-class ClientSerializer(serializers.HyperlinkedModelSerializer):
+class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = '__all__'
 
-class GigSerializer(serializers.HyperlinkedModelSerializer):
+class GigSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gig
         fields = '__all__'
